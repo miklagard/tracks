@@ -110,6 +110,14 @@ class AxlesNumber(Chat):
     }
 
 
+class TrucksVariantModels(Chat):
+    text = 'This is just a test code, chat tree is not done for different models for the trucks.'
+
+    set_answer_to_session = 'variant_trucks'
+
+    terminate = True
+
+
 class Bye(Chat):
     text = 'Your conversation is saved. We will contact to you as soon as possible. Thank you.'
 
