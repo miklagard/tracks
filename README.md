@@ -17,7 +17,7 @@ The log generator is located under /tracker/tracker/util/log.py
 
 ### Chat tree
 
-This can be modified under tracker/api/chat.
+This can be modified under tracker/api/chat. The initial is class is Welcome, this can be modified under settings.py CHAT_START_NODE.
 
 #### Variables using there:
 
@@ -25,6 +25,19 @@ text: Bot's responde message to user
 set_answer_to_session: Session key to be stored the answer
 terminate: It ends the converstation if it is set as True
 
-For the direction, use any of those following variables:
-direct_to: The name of the Chat class to direct without paying attention to user's answer
-direct_if_condition: A dictionary to direct user to other Chat classes regarding their answers. The keys of this dictiary are the files which contains list of words which expected as an answer. They are located under /tracker/tracer/nlp_data/{key_name}.txt.
+#### For the direction, use any of those following variables:
+
+##### direct_to
+The name of the Chat class to direct without paying attention to the user's answer.
+
+##### direct_if_condition
+
+A dictionary to direct user to other Chat classes regarding their answers. 
+
+The keys of this dictiary are the files which contains list of words which expected as an answer. 
+
+They are located under /tracker/tracer/nlp_data/{key_name}.txt. This folder location can be modified under settings.py NLP_CONDITIONS_FILE.
+
+##### direct_if_session_iteration
+
+It is for the ittaration order for the listed answers.
