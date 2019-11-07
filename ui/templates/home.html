@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<title>Tracker Chatbot</title>
+
+		<link href="{% static 'vendors/bootstrap/css/bootstrap.min.css' %}?2" rel="stylesheet">
+		<link href="{% static 'vendors/tracker/css/tracker.css' %}?2" rel="stylesheet">
+ 	</head>
+ 	<body class="d-flex flex-column h-100">
+		<header class="masthead mb-auto">
+        	<div class="inner">
+          		<h3 class="masthead-brand">Tracks Chatbot</h3>
+        	</div>
+     	</header>
+		<main role="main" class="flex-shrink-0">
+	  		<div class="container">
+				<div id="chat-area">
+			</div>
+		</main>
+
+		<footer class="footer mt-auto py-3">
+			<div class="container">
+				<form id="frm-message">
+					<div class="input-group mb-3">
+
+					<input type="text" class="form-control" id="message-box" autocomplete="off">
+
+					<div class="input-group-append">
+						<button type="submit" class="btn btn-primary input-group-text">Send</button>
+					</div>
+				</form>
+			</span>
+  		</div>
+	</footer>
+
+	<script src="{% static 'vendors/jquery/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'vendors/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'vendors/tracker/js/tracker.js' %}?1"></script>
+
+</body>
+</html>
