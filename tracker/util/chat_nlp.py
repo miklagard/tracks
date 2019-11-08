@@ -5,16 +5,12 @@ from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import names
 from django.conf import settings
 
-def find_chat_node(session, conditions, answer):
-	for condition in conditions:
-		conditions_file = open(os.path.join(settings.NLP_CONDITIONS_FILE, condition + '.txt'), 'r')
-		conditions_data = conditions_file.read().split('\n')
-		conditions_file.close()
+def find_chat_node(conditions, answer):
+	for condition in conditions['if']:
+		if answer == condition:
+			return conditions['if'][condition]
 
-		if ([word for word in conditions_data if (word in answer)]):
-			return conditions[condition]
-
-	return session['chat_node']
+	return conditions['default']
 
 
 def determinate_yes_or_no(sentence):

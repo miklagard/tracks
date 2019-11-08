@@ -42,7 +42,29 @@ class TrucksQuantity(Chat):
 
     update_answer_to_session = 'number'
 
-    direct_to = 'TruckBrands'
+    direct_if_condition = {
+        "if": {
+            "1": 'TruckBrand',
+        },
+        "default": 'TruckBrands'
+    }
+
+class TruckBrand(Chat):
+    text = 'What brand is it?'
+
+    set_answer_to_session = 'brands'
+
+    direct_to = 'TruckModel'
+
+    # Initialize itarate index for the next steps 
+    iterate_index = 0
+
+    def set_answer(self, session, user_message):
+        """
+            Override set_answer to split the brands entered by user
+        """
+        if user_message:
+            session[self.set_answer_to_session] = [user_message]
 
 
 class TruckBrands(Chat):
@@ -85,6 +107,16 @@ class IfSameModels(Chat):
         'yes': 'TrucksSameModels',
         'no': 'TrucksVariantModels'
     }
+
+
+class TruckModel(Chat):
+    text = 'What model is it?'
+
+    set_iteration_session = ('brands', 'current_truck_brand')
+
+    set_answer_to_session = 'model_{current_truck_brand}'
+
+    direct_to = 'EngineSize'
 
 
 class TrucksSameModels(Chat):

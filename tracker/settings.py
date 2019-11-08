@@ -125,6 +125,5 @@ STATICFILES_DIRS = [
 ]
 
 # Chatbot settings
-NLP_CONDITIONS_FILE = os.path.join(BASE_DIR, 'tracker', 'nlp_data')
 CHAT_START_NODE = 'Welcome' # Initial node under api/chat.py
 LOG_DIR = os.path.join(BASE_DIR, 'tracker', 'log')
