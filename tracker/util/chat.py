@@ -30,6 +30,13 @@ class Chat:
 			elif hasattr(self, 'direct_if_condition'):
 				session['next_chat_node'] = nlp.find_chat_node(session, self.direct_if_condition, user_message)
 
+			elif hasattr(self, 'direct_if_positive'):
+				print (self.direct_if_positive)
+				if nlp.determinate_yes_or_no(user_message):
+					session['next_chat_node'] = self.direct_if_positive['yes']
+				else:
+					session['next_chat_node'] = self.direct_if_positive['no']
+
 			elif hasattr(self, 'direct_if_session_iteration'):
 				session['iterate_index'] += 1
 

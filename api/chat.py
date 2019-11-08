@@ -21,9 +21,9 @@ class Trucks(Chat):
 
     set_answer_to_session = 'have_trucks'
 
-    direct_if_condition = {
-        'have_trucks': 'TrucksQuantity',
-        'have_no_trucks': 'YouHaveNoTrucks'
+    direct_if_positive = {
+        'yes': 'TrucksQuantity',
+        'no': 'YouHaveNoTrucks'
     }
 
 
@@ -77,9 +77,9 @@ class IfSameModels(Chat):
 
     set_answer_to_session = 'if_same_models_{current_truck_brand}'
 
-    direct_if_condition = {
-        'same_models': 'TrucksSameModels',
-        'not_same_models': 'TrucksVariantModels'
+    direct_if_positive = {
+        'yes': 'TrucksSameModels',
+        'no': 'TrucksVariantModels'
     }
 
 
