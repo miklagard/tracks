@@ -1,5 +1,6 @@
 import nltk.classify.util
 import os
+from word2number import w2n
 from nltk.classify import NaiveBayesClassifier
 from nltk.corpus import names
 from django.conf import settings
@@ -47,3 +48,18 @@ def determinate_yes_or_no(sentence):
 
 
 	return pos > neg
+
+
+def get_numbers_in_sentence(sentence):
+	result = 0
+
+	try:
+		result = w2n.word_to_num(sentence)
+	except:
+		sentence_pos = nltk.pos_tag(sentence.split())
+
+		for word in sentence_pos:
+			if word[1] == 'CC': # Is number?
+				result = word[0]
+
+	return result

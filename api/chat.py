@@ -40,6 +40,8 @@ class TrucksQuantity(Chat):
 
     set_answer_to_session = 'number_of_trucks'
 
+    update_answer_to_session = 'number'
+
     direct_to = 'TruckBrands'
 
 
@@ -68,6 +70,8 @@ class BrandQuantity(Chat):
     text = 'How many {current_truck_brand} trucks do you have?'
 
     set_answer_to_session = '{current_truck_brand}_number'
+
+    update_answer_to_session = 'number'
 
     direct_to = 'IfSameModels'
 

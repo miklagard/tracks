@@ -4,3 +4,4 @@ pytz==2019.3
 six==1.12.0
 sqlparse==0.3.0
 nltk==3.4.5
+word2number==1.1

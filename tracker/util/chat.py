@@ -31,7 +31,6 @@ class Chat:
 				session['next_chat_node'] = nlp.find_chat_node(session, self.direct_if_condition, user_message)
 
 			elif hasattr(self, 'direct_if_positive'):
-				print (self.direct_if_positive)
 				if nlp.determinate_yes_or_no(user_message):
 					session['next_chat_node'] = self.direct_if_positive['yes']
 				else:
@@ -55,6 +54,10 @@ class Chat:
 
 	def set_answer(self, session, user_message):
 		if user_message:
+			if hasattr(self, 'update_answer_to_session'):
+				if self.update_answer_to_session == 'number':
+					user_message = str(nlp.get_numbers_in_sentence(user_message))
+
 			answer = self.set_answer_to_session.format(**session)
 			session[answer] = user_message.format(**session)
 			log.log_session(session.session_key, answer, user_message.format(**session))
