@@ -82,6 +82,9 @@ class TruckBrands(Chat):
             Override set_answer to split the brands entered by user
         """
         if user_message:
+            """
+                Split brands
+            """
             user_message = user_message.replace(' and ', ',').split(',')
             session[self.set_answer_to_session] = user_message
 

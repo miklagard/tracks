@@ -1,5 +1,6 @@
 import tracker.util.chat_nlp as nlp
 import tracker.util.log as log
+import nltk.chat.util as nltk_chat
 from django.conf import settings
 
 class Chat:
@@ -58,7 +59,30 @@ class Chat:
 				del session['validation_text']
 			else:
 				self.text = self.text.format(**session)
-				log.log_conversation(session.session_key, 'bot', self.text.format(**session))
+
+			log.log_conversation(session.session_key, 'bot', self.text.format(**session))
+
+
+	def user_message_cases(self, user_message):
+		pairs = [
+			[ '(.*), or no (.*)s actually (.*)', ['%3'] ],
+			[ '(.*), sorry not (.*)', ['%3'] ],
+			[ 'my name is (.*)', ['%1'] ],
+			[ 'i am (.*)', ['%1'] ],
+			[ 'i\'m (.*)', ['%1'] ],
+			[ 'my name is (.*), (.*)', ['%1'] ],
+			[ 'i am (.*), (.*)', ['%1'] ],
+			[ 'i\'m (.*), (.*)', ['%1'] ],
+		]
+
+		chat = nltk_chat.Chat(pairs, nltk_chat.reflections)
+
+		respond = chat.respond(user_message)
+
+		if respond:
+			return respond
+		else:
+			return user_message
 
 
 	def check_validated(self, session, user_message):
@@ -99,6 +123,7 @@ class Chat:
 	def set_answer(self, session, user_message):
 		if user_message:
 			user_message = self.get_message(session, user_message)
+			user_message = self.user_message_cases(user_message)
 
 			answer = self.set_answer_to_session.format(**session)
 			session[answer] = user_message.format(**session)
