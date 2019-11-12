@@ -132,6 +132,21 @@ class EngineSize(Chat):
 
     set_answer_to_session = 'engine_size_{current_truck_brand}'
 
+    update_answer_to_session = 'number'
+
+    validate = [
+        {
+            'condition': 'greater',
+            'value': 10000,
+            'message': 'Your answer doesn\'t seem valid for the engine size for a truck, please type the engine size?'
+        },
+        {
+            'condition': 'lower',
+            'value': 100,
+            'message': 'Your answer doesn\'t seem valid for the engine size for a truck, please type the engine size?'
+        }
+    ]
+
     direct_to = 'AxlesNumber'
 
 
@@ -140,6 +155,21 @@ class AxlesNumber(Chat):
 
     set_answer_to_session = 'axles_number_{current_truck_brand}'
 
+    update_answer_to_session = 'number'
+    
+    validate = [
+        {
+            'condition': 'greater',
+            'value': 20,
+            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the engine size?'
+        },
+        {
+            'condition': 'lower',
+            'value': 2,
+            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the engine size?'
+        }
+    ]
+    
     direct_if_session_iteration = {
         'finished': 'Bye',
         'notfinished': 'BrandQuantity'

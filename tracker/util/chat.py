@@ -22,50 +22,84 @@ class Chat:
 		self.set_answer(session, user_message)
 
 		if user_message != None:
-			log.log_conversation(session.session_key, 'user', user_message)
+			validation_status = self.check_validated(session, user_message)
 
-			if hasattr(self, 'direct_to'):
-				session['next_chat_node'] = self.direct_to
+			if validation_status['validated'] == False:
+				session['validation_text'] = validation_status['message'].format(**session)
+			else:
+				log.log_conversation(session.session_key, 'user', user_message)
 
-			elif hasattr(self, 'direct_if_condition'):
-				session['next_chat_node'] = nlp.find_chat_node(
-					self.direct_if_condition,
-					self.get_message(session, user_message)
-				)
+				if hasattr(self, 'direct_to'):
+					session['next_chat_node'] = self.direct_to
 
-			elif hasattr(self, 'direct_if_positive'):
-				if nlp.determinate_yes_or_no(user_message):
-					session['next_chat_node'] = self.direct_if_positive['yes']
-				else:
-					session['next_chat_node'] = self.direct_if_positive['no']
+				elif hasattr(self, 'direct_if_condition'):
+					session['next_chat_node'] = nlp.find_chat_node(
+						self.direct_if_condition,
+						self.get_message(session, user_message)
+					)
 
-			elif hasattr(self, 'direct_if_session_iteration'):
-				session['iterate_index'] += 1
+				elif hasattr(self, 'direct_if_positive'):
+					session['next_chat_node'] = self.direct_if_positive[
+						nlp.determinate_yes_or_no(user_message)
+					]
 
-				src_session_name = session['set_iteration_session_name']
+				elif hasattr(self, 'direct_if_session_iteration'):
+					session['iterate_index'] += 1
 
-				if len(session[src_session_name]) == session['iterate_index']:
-					session['next_chat_node'] = self.direct_if_session_iteration["finished"]
-				else:
-					session['next_chat_node'] = self.direct_if_session_iteration["notfinished"]
+					src_session_name = session['set_iteration_session_name']
 
-		self.text = self.text.format(**session)
+					if len(session[src_session_name]) == session['iterate_index']:
+						session['next_chat_node'] = self.direct_if_session_iteration["finished"]
+					else:
+						session['next_chat_node'] = self.direct_if_session_iteration["notfinished"]
+		else: 
+			if 'validation_text' in session:
+				self.text = session['validation_text'].format(**session)
+				del session['validation_text']
+			else:
+				self.text = self.text.format(**session)
+				log.log_conversation(session.session_key, 'bot', self.text.format(**session))
 
-		if user_message == None:
-			log.log_conversation(session.session_key, 'bot', self.text.format(**session))
+
+	def check_validated(self, session, user_message):
+		if hasattr(self, 'validate'):
+			user_message = self.get_message(session, user_message)
+
+			for case in self.validate:
+				condition = case['condition']
+				value = int(case['value'])
+				message = case['message']
+
+				if condition == 'greater':
+					if int(user_message) > value:
+						return {
+							'validated': False,
+							'message': message
+						}
+				elif condition == 'lower':
+					if int(user_message) < value:
+						return {
+							'validated': False,
+							'message': message
+						}
+
+		return {
+			'validated': True
+		}
+
 
 	def get_message(self, session, user_message):
-		if user_message:
-			if hasattr(self, 'update_answer_to_session'):
-				if self.update_answer_to_session == 'number':
-					user_message = str(nlp.get_numbers_in_sentence(user_message))
+		if hasattr(self, 'update_answer_to_session'):
+			if self.update_answer_to_session == 'number':
+				user_message = str(nlp.get_numbers_in_sentence(user_message))
 
 		return user_message
+
 
 	def set_answer(self, session, user_message):
 		if user_message:
 			user_message = self.get_message(session, user_message)
-	
+
 			answer = self.set_answer_to_session.format(**session)
 			session[answer] = user_message.format(**session)
 			log.log_session(session.session_key, answer, user_message.format(**session))

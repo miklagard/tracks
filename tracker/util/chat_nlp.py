@@ -42,8 +42,10 @@ def determinate_yes_or_no(sentence):
 	    if classResult == 'pos':
 	        pos = pos + 1
 
-
-	return pos > neg
+	if pos > neg:
+		return 'yes'
+	else:
+		return 'no'
 
 
 def get_numbers_in_sentence(sentence):
