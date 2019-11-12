@@ -164,12 +164,12 @@ class AxlesNumber(Chat):
         {
             'condition': 'greater',
             'value': 20,
-            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the engine size?'
+            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the axles number?'
         },
         {
             'condition': 'lower',
             'value': 2,
-            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the engine size?'
+            'message': 'Your answer doesn\'t seem valid for axles for a truck, please type the axles number?'
         }
     ]
     
